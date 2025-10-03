@@ -33,7 +33,7 @@ lerna-debug.log*
 .cache/
 
 # Build output (ignore if not committing distributables)
-build/
+# build/
 
 # Media (keep README only)
 media/*
