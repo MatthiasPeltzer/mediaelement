@@ -36,5 +36,5 @@ lerna-debug.log*
 # build/
 
 # Media (keep README only)
-media/*
+# media/*
 !media/README
