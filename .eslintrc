@@ -1,20 +1,25 @@
 {
+  "root": true,
   "env": {
-    "es6": true,
+    "es2022": true,
     "browser": true,
-    "mocha": true,
-    "node": true,
-    "jquery": true
+    "node": true
   },
   "extends": "eslint:recommended",
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "rules": {
-    "no-console": 0,
-    "no-undef" : 0,
-    "no-case-declarations": 0,
-    "no-empty": 0
-  }
+    "no-console": "off",
+    "no-undef": "error",
+    "no-case-declarations": "off",
+    "no-empty": ["warn", { "allowEmptyCatch": true }]
+  },
+  "overrides": [
+    {
+      "files": ["test/**/*.js"],
+      "env": { "mocha": true }
+    }
+  ]
 }

@@ -5,9 +5,8 @@
  * except fadeIn/fadeOut (from https://github.com/DimitriMikadze/vanilla-helpers/blob/master/js/vanillaHelpers.js)
  */
 
-import window from 'global/window';
-import document from 'global/document';
-import mejs from '../core/mejs';
+// Use native window/document
+import mejs from '../core/mejs.js';
 
 export function loadScript (url) {
 	return new Promise((resolve, reject) => {

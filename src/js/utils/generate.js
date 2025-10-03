@@ -1,6 +1,6 @@
 'use strict';
 
-import mejs from '../core/mejs';
+import mejs from '../core/mejs.js';
 
 /**
  * Generate HTML for control button with inline SVG inside

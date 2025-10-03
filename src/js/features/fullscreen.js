@@ -1,15 +1,14 @@
 'use strict';
 
-import window from 'global/window';
-import document from 'global/document';
-import i18n from '../core/i18n';
-import {config} from '../player';
-import MediaElementPlayer from '../player';
-import * as Features from '../utils/constants';
-import {isString, createEvent} from '../utils/general';
-import {addClass, removeClass} from '../utils/dom';
-import {getTypeFromFile} from '../utils/media';
-import {generateControlButton} from '../utils/generate';
+// Use native window/document
+import i18n from '../core/i18n.js';
+import {config} from '../player.js';
+import MediaElementPlayer from '../player.js';
+import * as Features from '../utils/constants.js';
+import {isString, createEvent} from '../utils/general.js';
+import {addClass, removeClass} from '../utils/dom.js';
+import {getTypeFromFile} from '../utils/media.js';
+import {generateControlButton} from '../utils/generate.js';
 
 
 /**
@@ -92,7 +91,7 @@ Object.assign(MediaElementPlayer.prototype, {
 
 		fullscreenBtn.addEventListener('click', () => {
 			// toggle fullscreen
-			const isFullScreen = (Features.HAS_TRUE_NATIVE_FULLSCREEN && Features.IS_FULLSCREEN) || player.isFullScreen;
+		const isFullScreen = (Features.HAS_TRUE_NATIVE_FULLSCREEN && Features.isFullScreen()) || player.isFullScreen;
 
 			if (isFullScreen) {
 				player.exitFullScreen();
@@ -120,7 +119,7 @@ Object.assign(MediaElementPlayer.prototype, {
 
 		t.exitFullscreenCallback = (e) => {
 			const key = e.which || e.keyCode || 0;
-			if (t.options.enableKeyboard && key === 27 && ((Features.HAS_TRUE_NATIVE_FULLSCREEN && Features.IS_FULLSCREEN) || t.isFullScreen)) {
+			if (t.options.enableKeyboard && key === 27 && ((Features.HAS_TRUE_NATIVE_FULLSCREEN && Features.isFullScreen()) || t.isFullScreen)) {
 				player.exitFullScreen();
 			}
 		};
@@ -318,7 +317,7 @@ Object.assign(MediaElementPlayer.prototype, {
 		clearTimeout(t.containerSizeTimeout);
 
 		// come out of native fullscreen
-		if (Features.HAS_TRUE_NATIVE_FULLSCREEN && (Features.IS_FULLSCREEN || t.isFullScreen)) {
+		if (Features.HAS_TRUE_NATIVE_FULLSCREEN && (Features.isFullScreen() || t.isFullScreen)) {
 			Features.cancelFullScreen();
 		}
 

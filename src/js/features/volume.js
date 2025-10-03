@@ -1,13 +1,13 @@
 'use strict';
 
-import document from 'global/document';
-import {config} from '../player';
-import MediaElementPlayer from '../player';
-import i18n from '../core/i18n';
-import {IS_ANDROID, IS_IOS} from '../utils/constants';
-import {isString, createEvent} from '../utils/general';
-import {addClass, removeClass, offset} from '../utils/dom';
-import {generateControlButton} from '../utils/generate';
+// Use native document
+import {config} from '../player.js';
+import MediaElementPlayer from '../player.js';
+import i18n from '../core/i18n.js';
+import {IS_ANDROID, IS_IOS} from '../utils/constants.js';
+import {isString, createEvent} from '../utils/general.js';
+import {addClass, removeClass, offset} from '../utils/dom.js';
+import {generateControlButton} from '../utils/generate.js';
 
 
 /**

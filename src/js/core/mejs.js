@@ -1,12 +1,10 @@
 'use strict';
 
-import window from 'global/window';
-
 // Namespace
 const mejs = {};
 
 // version number
-mejs.version = '7.0.7';
+mejs.version = '7.0.8';
 
 // Basic HTML5 settings
 mejs.html5media = {

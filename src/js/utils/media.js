@@ -1,7 +1,7 @@
 'use strict';
 
-import mejs from '../core/mejs';
-import {escapeHTML} from './general';
+import mejs from '../core/mejs.js';
+import {escapeHTML} from './general.js';
 
 export let typeChecks = [];
 
@@ -62,11 +62,13 @@ export function getTypeFromFile (url) {
 	}
 
 	for (let i = 0, total = typeChecks.length; i < total; i++) {
-		const type = typeChecks[i](url);
-
-		if (type) {
-			return type;
-		}
+    const checker = typeChecks[i];
+    if (typeof checker === 'function') {
+        const type = checker(url);
+        if (type) {
+            return type;
+        }
+    }
 	}
 
 	const

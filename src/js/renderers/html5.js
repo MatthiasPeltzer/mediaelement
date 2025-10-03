@@ -1,11 +1,10 @@
 'use strict';
 
-import window from 'global/window';
-import document from 'global/document';
-import mejs from '../core/mejs';
-import {renderer} from '../core/renderer';
-import {createEvent} from '../utils/general';
-import {SUPPORTS_NATIVE_HLS, IS_ANDROID} from '../utils/constants';
+// Use native window/document
+import mejs from '../core/mejs.js';
+import {renderer} from '../core/renderer.js';
+import {createEvent} from '../utils/general.js';
+import {SUPPORTS_NATIVE_HLS, IS_ANDROID} from '../utils/constants.js';
 
 /**
  * Native HTML5 Renderer

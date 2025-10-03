@@ -1,11 +1,11 @@
 'use strict';
 
-import document from 'global/document';
-import {config} from '../player';
-import MediaElementPlayer from '../player';
-import i18n from "../core/i18n";
-import {secondsToTimeCode} from '../utils/time';
-import {addClass, removeClass} from '../utils/dom';
+// Use native document
+import {config} from '../player.js';
+import MediaElementPlayer from '../player.js';
+import i18n from "../core/i18n.js";
+import {secondsToTimeCode} from '../utils/time.js';
+import {addClass, removeClass} from '../utils/dom.js';
 
 /**
  * Current/duration times

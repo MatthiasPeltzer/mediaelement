@@ -1,6 +1,6 @@
 'use strict';
 
-import mejs from './mejs';
+import mejs from './mejs.js';
 
 /**
  *

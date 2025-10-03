@@ -1,10 +1,10 @@
 'use strict';
 
-import * as general from '../../src/js/utils/general';
-import * as time from '../../src/js/utils/time';
-import * as media from '../../src/js/utils/media';
+import * as general from '../../src/js/utils/general.js';
+import * as time from '../../src/js/utils/time.js';
+import * as media from '../../src/js/utils/media.js';
 import {expect} from 'chai';
-import jsdom from 'mocha-jsdom';
+import jsdomGlobal from 'jsdom-global';
 
 describe('Utilities', () => {
 	
@@ -102,7 +102,7 @@ describe('Utilities', () => {
 
 	describe('#createEvent', () => {
 
-		jsdom();
+		jsdomGlobal('', {url: "http://localhost"});
 
 		it('create a custom generic event', () => {
 
@@ -144,7 +144,7 @@ describe('Utilities', () => {
 
 	describe('#isNodeAfter', () => {
 
-		jsdom();
+		jsdomGlobal('', {url: "http://localhost"});
 
 		it('checks position of element compared with another', () => {
 
@@ -320,7 +320,7 @@ describe('Utilities', () => {
 
 	describe('#absolutizeUrl', () => {
 
-		jsdom({url: "http://localhost"});
+		jsdomGlobal('', {url: "http://localhost"});
 		
 		it ('returns the full URL for a relative URL', () => {
 			expect(media.absolutizeUrl('/media/demo.html')).to.equal('http://localhost/media/demo.html');
@@ -338,7 +338,8 @@ describe('Utilities', () => {
 		it('returns the format of a specific media using ONLY a URL', () => {
 
 			const url = 'http://example.com/media.mp4';
-			media.typeChecks = [
+			media.typeChecks.length = 0;
+			media.typeChecks.push(
 				(url) => {
 					if (url.match(/.mp4/)) {
 						return 'video/mp4';
@@ -349,7 +350,7 @@ describe('Utilities', () => {
 						return 'audio/mp3';
 					}
 				}
-			];
+			);
 
 			expect(media.formatType(url)).to.equal('video/mp4');
 
@@ -396,7 +397,8 @@ describe('Utilities', () => {
 
 		it('returns the type of media based on URL structure', () => {
 
-			media.typeChecks =  [
+			media.typeChecks.length = 0;
+			media.typeChecks.push(
 				(url) => {
 					if (url.match(/.mp4/)) {
 						return 'video/mp4';
@@ -407,19 +409,19 @@ describe('Utilities', () => {
 						return 'audio/mp3';
 					}
 				}
-
-			];
+			);
 
 			expect(media.getTypeFromFile('http://example.com/media.mp4')).to.equal('video/mp4');
 			expect(media.getTypeFromFile('http://example.com/media2.mp4?x=1&y=2')).to.equal('video/mp4');
 			expect(media.getTypeFromFile('http://example.com/media.mp3')).to.equal('audio/mp3');
 			expect(media.getTypeFromFile('http://example.com/media2.mp3?x=1&y=2')).to.equal('audio/mp3');
 
-			media.typeChecks =  [
+			media.typeChecks.length = 0;
+			media.typeChecks.push(
 				12345,
 				'abcde',
 				{}
-			];
+			);
 
 			expect(media.getTypeFromFile('http://example.com/media.m4v')).to.equal('video/mp4');
 			expect(media.getTypeFromFile('http://example.com/media.midi')).to.equal('audio/midi');

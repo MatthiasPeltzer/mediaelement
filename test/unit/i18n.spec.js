@@ -1,6 +1,6 @@
 'use strict';
 
-import i18n from '../../src/js/core/i18n';
+import i18n from '../../src/js/core/i18n.js';
 import {expect} from 'chai';
 
 describe('i18n', () => {

@@ -1,8 +1,7 @@
 'use strict';
 
-import window from 'global/window';
-import document from 'global/document';
-import mejs from '../core/mejs';
+// Use native window/document in modern environments
+import mejs from '../core/mejs.js';
 
 export const NAV = window.navigator;
 export const UA = NAV.userAgent.toLowerCase();
@@ -61,18 +60,15 @@ if (hasiOSFullScreen && /mac os x 10_5/i.test(UA)) {
 }
 
 // webkit/firefox/IE11+
-const hasWebkitNativeFullScreen = (video.webkitRequestFullScreen !== undefined);
-const hasMozNativeFullScreen = (video.mozRequestFullScreen !== undefined);
-const hasMsNativeFullScreen = (video.msRequestFullscreen !== undefined);
-const hasTrueNativeFullScreen = (hasWebkitNativeFullScreen || hasMozNativeFullScreen || hasMsNativeFullScreen);
+const hasWebkitNativeFullScreen = (video.requestFullscreen === undefined && video.webkitRequestFullscreen !== undefined);
+const hasMsNativeFullScreen = (video.requestFullscreen === undefined && video.msRequestFullscreen !== undefined);
+const hasTrueNativeFullScreen = (video.requestFullscreen !== undefined || hasWebkitNativeFullScreen || hasMsNativeFullScreen);
 let nativeFullScreenEnabled = hasTrueNativeFullScreen;
 let fullScreenEventName = '';
 let isFullScreen, requestFullScreen, cancelFullScreen;
 
 // Enabled?
-if (hasMozNativeFullScreen) {
-	nativeFullScreenEnabled = document.mozFullScreenEnabled;
-} else if (hasMsNativeFullScreen) {
+if (hasMsNativeFullScreen) {
 	nativeFullScreenEnabled = document.msFullscreenEnabled;
 }
 
@@ -81,53 +77,47 @@ if (IS_CHROME) {
 }
 
 if (hasTrueNativeFullScreen) {
-	if (hasWebkitNativeFullScreen) {
-		fullScreenEventName = 'webkitfullscreenchange';
-	} else if (hasMozNativeFullScreen) {
-		fullScreenEventName = 'fullscreenchange';
-	} else if (hasMsNativeFullScreen) {
-		fullScreenEventName = 'MSFullscreenChange';
-	}
+    if (typeof document.onfullscreenchange !== 'undefined') {
+        fullScreenEventName = 'fullscreenchange';
+    } else if (hasWebkitNativeFullScreen) {
+        fullScreenEventName = 'webkitfullscreenchange';
+    } else if (hasMsNativeFullScreen) {
+        fullScreenEventName = 'MSFullscreenChange';
+    }
 
-	isFullScreen = () =>  {
-		if (hasMozNativeFullScreen) {
-			return document.mozFullScreen;
+    isFullScreen = () =>  {
+        if (typeof document.fullscreenElement !== 'undefined') {
+            return document.fullscreenElement !== null;
+        } else if (hasWebkitNativeFullScreen) {
+            return document.webkitIsFullScreen;
+        } else if (hasMsNativeFullScreen) {
+            return document.msFullscreenElement !== null;
+        }
+    };
 
-		} else if (hasWebkitNativeFullScreen) {
-			return document.webkitIsFullScreen;
+    requestFullScreen = (el) => {
+        if (el.requestFullscreen) {
+            el.requestFullscreen();
+        } else if (el.webkitRequestFullscreen) {
+            el.webkitRequestFullscreen();
+        } else if (el.msRequestFullscreen) {
+            el.msRequestFullscreen();
+        }
+    };
 
-		} else if (hasMsNativeFullScreen) {
-			return document.msFullscreenElement !== null;
-		}
-	};
-
-	requestFullScreen = (el) => {
-		if (hasWebkitNativeFullScreen) {
-			el.webkitRequestFullScreen();
-		} else if (hasMozNativeFullScreen) {
-			el.mozRequestFullScreen();
-		} else if (hasMsNativeFullScreen) {
-			el.msRequestFullscreen();
-		}
-	};
-
-	cancelFullScreen = () => {
-		if (hasWebkitNativeFullScreen) {
-			document.webkitCancelFullScreen();
-
-		} else if (hasMozNativeFullScreen) {
-			document.mozCancelFullScreen();
-
-		} else if (hasMsNativeFullScreen) {
-			document.msExitFullscreen();
-
-		}
-	};
+    cancelFullScreen = () => {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+    };
 }
 
 export const HAS_NATIVE_FULLSCREEN = hasNativeFullscreen;
 export const HAS_WEBKIT_NATIVE_FULLSCREEN = hasWebkitNativeFullScreen;
-export const HAS_MOZ_NATIVE_FULLSCREEN = hasMozNativeFullScreen;
 export const HAS_MS_NATIVE_FULLSCREEN = hasMsNativeFullScreen;
 export const HAS_IOS_FULLSCREEN = hasiOSFullScreen;
 export const HAS_TRUE_NATIVE_FULLSCREEN = hasTrueNativeFullScreen;
@@ -154,7 +144,6 @@ mejs.Features.supportsPassiveEvent = SUPPORT_PASSIVE_EVENT;
 mejs.Features.hasiOSFullScreen = HAS_IOS_FULLSCREEN;
 mejs.Features.hasNativeFullscreen = HAS_NATIVE_FULLSCREEN;
 mejs.Features.hasWebkitNativeFullScreen = HAS_WEBKIT_NATIVE_FULLSCREEN;
-mejs.Features.hasMozNativeFullScreen = HAS_MOZ_NATIVE_FULLSCREEN;
 mejs.Features.hasMsNativeFullScreen = HAS_MS_NATIVE_FULLSCREEN;
 mejs.Features.hasTrueNativeFullScreen = HAS_TRUE_NATIVE_FULLSCREEN;
 mejs.Features.nativeFullScreenEnabled = HAS_NATIVE_FULLSCREEN_ENABLED;

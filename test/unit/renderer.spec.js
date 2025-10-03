@@ -1,7 +1,8 @@
 'use strict';
 
-import {renderer} from '../../src/js/core/renderer';
+import {renderer} from '../../src/js/core/renderer.js';
 import {expect} from 'chai';
+import jsdomGlobal from 'jsdom-global';
 
 describe('Renderers', () => {
 

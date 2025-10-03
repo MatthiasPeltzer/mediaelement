@@ -1,6 +1,6 @@
 'use strict';
 
-import window from 'global/window';
+// Use native window
 
 export default class DefaultPlayer {
 	/**

@@ -1,12 +1,11 @@
 'use strict';
 
-import document from 'global/document';
-import {config} from '../player';
-import MediaElementPlayer from '../player';
-import i18n from '../core/i18n';
-import {isString} from '../utils/general';
-import {addClass, removeClass} from '../utils/dom';
-import {generateControlButton} from '../utils/generate';
+import {config} from '../player.js';
+import MediaElementPlayer from '../player.js';
+import i18n from '../core/i18n.js';
+import {isString} from '../utils/general.js';
+import {addClass, removeClass} from '../utils/dom.js';
+import {generateControlButton} from '../utils/generate.js';
 
 /**
  * Play/Pause button

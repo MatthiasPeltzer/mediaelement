@@ -1,8 +1,8 @@
 'use strict';
 
-import mejs from './mejs';
-import {EN as en} from '../languages/en';
-import {escapeHTML, isObjectEmpty} from '../utils/general';
+import mejs from './mejs.js';
+import {EN as en} from '../languages/en.js';
+import {escapeHTML, isObjectEmpty} from '../utils/general.js';
 
 /**
  * Locale.

@@ -1,8 +1,8 @@
 'use strict';
 
-import window from 'global/window';
-import mejs from '../core/mejs';
-import MediaElementPlayer from '../player';
+// Use native window
+import mejs from '../core/mejs.js';
+import MediaElementPlayer from '../player.js';
 
 if (typeof jQuery !== 'undefined') {
 	mejs.$ = jQuery;

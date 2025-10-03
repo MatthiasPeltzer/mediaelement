@@ -1,7 +1,8 @@
 {
   "name": "mediaelement",
+  "type": "module",
   "license": "MIT",
-  "version": "7.0.7",
+  "version": "7.0.8",
   "main": "full.js",
   "repository": {
     "type": "git",
@@ -12,76 +13,46 @@
   },
   "private": false,
   "devDependencies": {
-    "autoprefixer": "^6.7.7",
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.24.1",
-    "babelify": "^7.3.0",
-    "browserify": "^13.1.1",
-    "browserify-derequire": "^0.9.4",
-    "bundle-collapser": "^1.2.1",
-    "chai": "^3.5.0",
-    "coveralls": "^2.13.1",
-    "cssnano": "^3.8.0",
-    "grunt": "^1.6.1",
-    "grunt-babel": "^6.0.0",
-    "grunt-browserify": "^5.3.0",
-    "grunt-cli": "^0.1.13",
-    "grunt-contrib-clean": "^1.1.0",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-uglify": "^3.0.1",
-    "grunt-contrib-watch": "^1.1.0",
-    "grunt-eslint": "^19.0.0",
-    "grunt-postcss": "^0.9.0",
-    "grunt-remove-logging": "^0.2.0",
-    "grunt-shell": "^2.1.0",
-    "grunt-stylelint": "^0.8.0",
-    "grunt-text-replace": "^0.4.0",
-    "istanbul": "^1.1.0-alpha.1",
-    "jsdom": "^9.12.0",
-    "mocha": "^3.4.1",
-    "mocha-jsdom": "^1.1.0",
-    "promise-polyfill": "6.0.2",
-    "stylelint": "^7.10.1",
-    "stylelint-order": "^0.4.4",
-    "uglify-js": "^3.0.10"
+    "cross-env": "^10.1.0",
+    "autoprefixer": "^10.4.21",
+    "@babel/cli": "^7.28.3",
+    "@babel/core": "^7.28.4",
+    "@babel/preset-env": "^7.28.3",
+    "@babel/register": "^7.28.3",
+    "chai": "^6.2.0",
+    "cssnano": "^7.1.1",
+    "esbuild": "^0.25.10",
+    "jsdom-global": "^3.0.2",
+    "c8": "^10.1.3",
+    "jsdom": "^27.0.0",
+    "mocha": "^11.7.4",
+    "postcss-cli": "^11.0.1",
+    "promise-polyfill": "8.3.0",
+    "rimraf": "^6.0.1",
+    "cpy-cli": "^6.0.0",
+    "stylelint": "^16.24.0",
+    "stylelint-order": "^7.0.0",
+    "core-js": "^3.45.1",
+    "regenerator-runtime": "^0.14.1"
   },
   "dependencies": {
-    "global": "^4.3.1",
     "svg4everybody": "^2.1.9"
   },
   "scripts": {
-    "test": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-register --require babel-polyfill --recursive test/unit",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+    "test": "cross-env NODE_OPTIONS=--experimental-specifier-resolution=node c8 -r text -r lcov mocha --require jsdom-global/register --require @babel/register --require core-js/stable --require regenerator-runtime/runtime --recursive test/unit",
+    "clean": "rimraf build",
+    "build:css": "postcss src/css/mediaelementplayer.css -o build/mediaelementplayer.css",
+    "build:css:legacy": "postcss src/css/mediaelementplayer-legacy.css -o build/mediaelementplayer-legacy.css",
+    "build:css:min": "cross-env NODE_ENV=production postcss build/mediaelementplayer.css -o build/mediaelementplayer.min.css",
+    "build:css:legacy:min": "cross-env NODE_ENV=production postcss build/mediaelementplayer-legacy.css -o build/mediaelementplayer-legacy.min.css",
+    "build:assets": "cpy \"src/css/*.{png,svg,gif}\" build/ --flat",
+    "build:lang": "cpy src/js/languages/*.js !src/js/languages/en.js build/lang/ --flat",
+    "build:js": "esbuild scripts/entries/mediaelement.js --bundle --format=iife --outfile=build/mediaelement.js && esbuild scripts/entries/mediaelement-and-player.js --bundle --format=iife --outfile=build/mediaelement-and-player.js",
+    "build:js:min": "esbuild scripts/entries/mediaelement.js --bundle --minify --format=iife --outfile=build/mediaelement.min.js && esbuild scripts/entries/mediaelement-and-player.js --bundle --minify --format=iife --outfile=build/mediaelement-and-player.min.js",
+    "build:renderers": "esbuild src/js/renderers/dailymotion.js --bundle --format=iife --outfile=build/renderers/dailymotion.js && esbuild src/js/renderers/facebook.js --bundle --format=iife --outfile=build/renderers/facebook.js && esbuild src/js/renderers/soundcloud.js --bundle --format=iife --outfile=build/renderers/soundcloud.js && esbuild src/js/renderers/twitch.js --bundle --format=iife --outfile=build/renderers/twitch.js && esbuild src/js/renderers/vimeo.js --bundle --format=iife --outfile=build/renderers/vimeo.js && esbuild src/js/renderers/youtube.js --bundle --format=iife --outfile=build/renderers/youtube.js",
+    "build:renderers:min": "esbuild src/js/renderers/dailymotion.js --bundle --minify --format=iife --outfile=build/renderers/dailymotion.min.js && esbuild src/js/renderers/facebook.js --bundle --minify --format=iife --outfile=build/renderers/facebook.min.js && esbuild src/js/renderers/soundcloud.js --bundle --minify --format=iife --outfile=build/renderers/soundcloud.min.js && esbuild src/js/renderers/twitch.js --bundle --minify --format=iife --outfile=build/renderers/twitch.min.js && esbuild src/js/renderers/vimeo.js --bundle --minify --format=iife --outfile=build/renderers/vimeo.min.js && esbuild src/js/renderers/youtube.js --bundle --minify --format=iife --outfile=build/renderers/youtube.min.js",
+    "build:demo": "cpy demo/* build/ --flat",
+    "build": "npm run clean && npm run build:js && npm run build:js:min && npm run build:renderers && npm run build:renderers:min && npm run build:css && npm run build:css:legacy && npm run build:css:min && npm run build:css:legacy:min && npm run build:assets && npm run build:lang && npm run build:demo"
   },
-  "browserify": {
-    "extensions": [
-      ".js"
-    ],
-    "transform": [
-      [
-        "babelify",
-        {
-          "comments": false,
-          "presets": [
-            [
-              "env",
-              {
-                "targets": {
-                  "browsers": [
-                    "last 5 versions",
-                    "ie > 10",
-                    "ios > 7",
-                    "android > 3"
-                  ]
-                }
-              }
-            ]
-          ]
-        }
-      ]
-    ]
-  }
+  "browserify": {}
 }

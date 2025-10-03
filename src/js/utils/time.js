@@ -1,6 +1,6 @@
 'use strict';
 
-import mejs from '../core/mejs';
+import mejs from '../core/mejs.js';
 
 /**
  * Indicate if FPS is dropFrame (typically non-integer frame rates: 29.976)

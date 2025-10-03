@@ -1,5 +1,43 @@
 # Migration Guide
 
+## 7.0.8 (modern build + ESM + security)
+
+- Build System
+  - Removed Grunt/browserify pipeline and all related plugins.
+  - Added esbuild for JS bundling (dev and minified), postcss-cli for CSS (with autoprefixer + cssnano).
+  - New npm scripts: `build`, `build:js`, `build:js:min`, `build:renderers`, `build:renderers:min`, `build:css`, `build:css:min`, `build:assets`, `build:lang`, `clean`.
+  - Added `scripts/entries/mediaelement.js` and `scripts/entries/mediaelement-and-player.js` to define bundles.
+
+- Testing & Coverage
+  - Switched to ESM (`"type": "module"`).
+  - Replaced Istanbul with c8 for coverage and `mocha` for tests.
+  - Replaced `mocha-jsdom` with `jsdom-global` (bootstraps `window`/`document`).
+
+- Security & Dependencies
+  - Removed legacy/vulnerable request/istanbul trees; `npm audit` for production: 0 vulnerabilities.
+  - Upgraded active tools: cross-env, c8, postcss-cli, rimraf, cpy-cli, esbuild.
+  - Removed `global` and `min-document` dependency; code now uses native `window`/`document`.
+
+- Source Changes
+  - ESM imports now include explicit `.js` extensions.
+  - Replaced deprecated fullscreen APIs (`mozRequestFullScreen`/`mozCancelFullScreen`) with standards-first `requestFullscreen`/`exitFullscreen` and maintained webkit/ms fallbacks. Event selection prefers `fullscreenchange`.
+  - Improved icon sprite resolution: `MediaElement` detects `iconSprite` from `import.meta.url`, loader script src, or CSS href. Global override supported via `window.mejs.MepDefaults.iconSprite`.
+
+- Demo
+  - Ensures icons resolve by setting `mejs.MepDefaults.iconSprite = '../build/mejs-controls.svg'` before player initialization.
+
+- Cleanup
+  - Removed unused files: `Gruntfile.js`, `bower.json`, `package.js`, `full.js`, `standalone.js`.
+
+### Notes for Integrators
+
+- If your bundles are served from a CDN or different base path, set `iconSprite` explicitly when creating the player:
+  ```js
+  new MediaElementPlayer(video, { iconSprite: '/assets/mejs/mejs-controls.svg' });
+  ```
+- If you relied on `global/window` or `global/document`, they are no longer required; use native globals.
+- If you had custom fullscreen handling, ensure it aligns with `requestFullscreen/exitFullscreen`.
+
 ## Migrating from `6.x` to `7.x` version
 
 * Flash support removed. If you want to use flash you have to use version 6 or below.

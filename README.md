@@ -46,6 +46,34 @@ A brief guide on how to create and use instances of `MediaElement` available at 
 
 Additional features can be found at https://github.com/mediaelement/mediaelement-plugins.
 
+## Development
+
+- Build
+  - `npm run build`: builds JS (esbuild), CSS (postcss + autoprefixer + cssnano), renderers, assets and demo
+  - Partial: `build:js`, `build:js:min`, `build:css`, `build:css:min`, `build:renderers`, `build:renderers:min`, `build:assets`, `build:lang`, `clean`
+
+- Testing & Coverage
+  - `npm test`: mocha + c8 (ESM), jsdom-global bootstraps `window`/`document`
+
+- Security
+  - Production `npm audit` is clean; modern tooling replaces legacy request/istanbul trees
+
+- Icon sprite (SVG)
+  - The player loads icons from `mejs-controls.svg` located next to your bundle by default
+  - If you serve bundles from a different base path/CDN, set the sprite explicitly before initializing players:
+    ```html
+    <script>
+      window.mejs = window.mejs || {};
+      window.mejs.MepDefaults = Object.assign({}, window.mejs.MepDefaults || {}, {
+        iconSprite: '/assets/mejs/mejs-controls.svg'
+      });
+    </script>
+    ```
+  - Or pass `iconSprite` as an option to `MediaElementPlayer`
+
+- Fullscreen API
+  - Uses standards-first `requestFullscreen`/`exitFullscreen` with webkit/ms fallbacks
+
 <a id="api"></a>
 ## API and Configuration
 
@@ -72,6 +100,33 @@ Changes available at [Change Log](changelog.md).
 ## Migration
 
 For migrating mediaelement see [Migration guide](MIGRATION.md).
+
+### Migrating to the modern build (no Grunt)
+
+This package now ships an esbuild + PostCSS toolchain and ESM-by-default.
+
+- Bundles
+  - `build/mediaelement.js` and `build/mediaelement-and-player.js` (plus `.min.js`)
+  - Individual renderers under `build/renderers/`
+  - Styles: `build/mediaelementplayer.css` (and `.min.css`)
+
+- Usage
+  - Include the CSS and the JS bundle you need
+  - Ensure the SVG sprite is served alongside your bundle, or set the path explicitly:
+    ```html
+    <link rel="stylesheet" href="/assets/mediaelementplayer.css">
+    <script src="/assets/mediaelement-and-player.js"></script>
+    <script>
+      window.mejs = window.mejs || {};
+      window.mejs.MepDefaults = Object.assign({}, window.mejs.MepDefaults || {}, {
+        iconSprite: '/assets/mejs-controls.svg'
+      });
+    </script>
+    ```
+
+- Fullscreen API
+  - Uses standards-first `requestFullscreen`/`exitFullscreen` with webkit/ms fallbacks; removed legacy `moz*` calls.
+
 
 <a id="todo"></a>
 ## TODO list

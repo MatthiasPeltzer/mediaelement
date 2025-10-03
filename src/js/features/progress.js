@@ -1,12 +1,12 @@
 'use strict';
 
-import document from 'global/document';
-import {config} from '../player';
-import MediaElementPlayer from '../player';
-import i18n from '../core/i18n';
-import {IS_IOS, IS_ANDROID, SUPPORT_PASSIVE_EVENT} from '../utils/constants';
-import {secondsToTimeCode} from '../utils/time';
-import {offset, addClass, removeClass, hasClass} from '../utils/dom';
+// Use native document
+import {config} from '../player.js';
+import MediaElementPlayer from '../player.js';
+import i18n from '../core/i18n.js';
+import {IS_IOS, IS_ANDROID, SUPPORT_PASSIVE_EVENT} from '../utils/constants.js';
+import {secondsToTimeCode} from '../utils/time.js';
+import {offset, addClass, removeClass, hasClass} from '../utils/dom.js';
 
 /**
  * Progress/loaded bar

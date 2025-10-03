@@ -1,12 +1,11 @@
 'use strict';
 
-import window from 'global/window';
-import document from 'global/document';
-import mejs from './mejs';
-import {createEvent} from '../utils/general';
-import {getTypeFromFile, formatType, absolutizeUrl} from '../utils/media';
-import {renderer} from './renderer';
-import {IS_IOS} from '../utils/constants';
+// Use native window/document
+import mejs from './mejs.js';
+import {createEvent} from '../utils/general.js';
+import {getTypeFromFile, formatType, absolutizeUrl} from '../utils/media.js';
+import {renderer} from './renderer.js';
+import {IS_IOS} from '../utils/constants.js';
 
 /**
  * Media Core
@@ -29,6 +28,43 @@ class MediaElement {
 
 		sources = Array.isArray(sources) ? sources : null;
 
+		const detectIconSprite = () => {
+			try {
+				// Explicit override via global defaults
+				if (typeof window !== 'undefined' && window.mejs && window.mejs.MepDefaults && typeof window.mejs.MepDefaults.iconSprite === 'string' && window.mejs.MepDefaults.iconSprite) {
+					return window.mejs.MepDefaults.iconSprite;
+				}
+
+				// Prefer module URL when available (bundlers)
+				if (typeof import.meta !== 'undefined' && import.meta.url) {
+					const u = import.meta.url;
+					const base = u.substring(0, u.lastIndexOf('/') + 1);
+					return `${base}mejs-controls.svg`;
+				}
+
+				// Find the script that loaded the mediaelement bundle
+				const scripts = document.getElementsByTagName('script');
+				for (let i = 0; i < scripts.length; i++) {
+					const src = scripts[i].getAttribute('src') || '';
+					if (src && /(mediaelement(?:-and-player)?\.js)(\?|$)/.test(src)) {
+						const base = src.substring(0, src.lastIndexOf('/') + 1);
+						return `${base}mejs-controls.svg`;
+					}
+				}
+
+				// Fallback: infer from CSS location
+				const links = document.getElementsByTagName('link');
+				for (let j = 0; j < links.length; j++) {
+					const href = links[j].getAttribute('href') || '';
+					if (href && /mediaelementplayer\.css(\?|$)/.test(href)) {
+						const base = href.substring(0, href.lastIndexOf('/') + 1);
+						return `${base}mejs-controls.svg`;
+					}
+				}
+			} catch (e) {}
+			return 'mejs-controls.svg';
+		};
+
 		t.defaults = {
 			/**
 			 * List of the renderers to use
@@ -44,7 +80,7 @@ class MediaElement {
 			 * The path where the icon sprite is located
 			 * @type {String}
 			 */
-			iconSprite: 'mejs-controls.svg',
+			iconSprite: detectIconSprite(),
 		};
 
 		options = Object.assign(t.defaults, options);

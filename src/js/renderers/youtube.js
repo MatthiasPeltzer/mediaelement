@@ -1,12 +1,11 @@
 'use strict';
 
-import window from 'global/window';
-import document from 'global/document';
-import mejs from '../core/mejs';
-import {renderer} from '../core/renderer';
-import {createEvent} from '../utils/general';
-import {typeChecks} from '../utils/media';
-import {loadScript} from '../utils/dom';
+// Use native window/document
+import mejs from '../core/mejs.js';
+import {renderer} from '../core/renderer.js';
+import {createEvent} from '../utils/general.js';
+import {typeChecks} from '../utils/media.js';
+import {loadScript} from '../utils/dom.js';
 
 /**
  * YouTube renderer

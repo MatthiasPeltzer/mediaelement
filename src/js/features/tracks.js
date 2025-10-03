@@ -1,13 +1,13 @@
 'use strict';
 
-import document from 'global/document';
-import mejs from '../core/mejs';
-import i18n from '../core/i18n';
-import {config} from '../player';
-import MediaElementPlayer from '../player';
-import {isString, createEvent} from '../utils/general';
-import {addClass, removeClass, hasClass, siblings} from '../utils/dom';
-import {generateControlButton} from '../utils/generate';
+// Use native document
+import mejs from '../core/mejs.js';
+import i18n from '../core/i18n.js';
+import {config} from '../player.js';
+import MediaElementPlayer from '../player.js';
+import {isString, createEvent} from '../utils/general.js';
+import {addClass, removeClass, hasClass, siblings} from '../utils/dom.js';
+import {generateControlButton} from '../utils/generate.js';
 
 /**
  * Closed Captions (CC) button

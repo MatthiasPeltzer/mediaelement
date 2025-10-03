@@ -1,11 +1,10 @@
 'use strict';
 
-import window from 'global/window';
-import document from 'global/document';
-import mejs from './core/mejs';
-import MediaElement from './core/mediaelement';
-import DefaultPlayer from './player/default';
-import i18n from './core/i18n';
+// Use native window/document
+import mejs from './core/mejs.js';
+import MediaElement from './core/mediaelement.js';
+import DefaultPlayer from './player/default.js';
+import i18n from './core/i18n.js';
 import {
 	IS_FIREFOX,
 	IS_IPAD,
@@ -16,11 +15,11 @@ import {
 	HAS_TRUE_NATIVE_FULLSCREEN,
 	SUPPORT_PASSIVE_EVENT
 } from './utils/constants';
-import {splitEvents, isNodeAfter, createEvent, isString} from './utils/general';
-import {calculateTimeFormat} from './utils/time';
-import {getTypeFromFile} from './utils/media';
-import * as dom from './utils/dom';
-import {generateControlButton} from "./utils/generate";
+import {splitEvents, isNodeAfter, createEvent, isString} from './utils/general.js';
+import {calculateTimeFormat} from './utils/time.js';
+import {getTypeFromFile} from './utils/media.js';
+import * as dom from './utils/dom.js';
+import {generateControlButton} from "./utils/generate.js";
 
 mejs.mepIndex = 0;
 

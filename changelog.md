@@ -1,3 +1,15 @@
+## 7.0.8 - Modern build, ESM, security and fixes
+*7.0.8* (2025/10/03)
+
+- Build system: Removed Grunt/browserify; added esbuild + PostCSS (autoprefixer, cssnano). New npm scripts for JS/CSS/renderers/assets.
+- ESM: Project now uses ESM ("type": "module"); imports updated to explicit .js extensions.
+- Testing & Coverage: Replaced Istanbul with c8; use mocha with jsdom-global for DOM; tests remain 61 passing.
+- Security: Removed vulnerable request/istanbul trees; production `npm audit` is 0 vulnerabilities.
+- Dependencies: Upgraded cross-env, c8, postcss-cli, rimraf, cpy-cli, esbuild; removed `global`/`min-document` usage.
+- Fullscreen API: Removed deprecated `moz*` APIs; standards-first `requestFullscreen`/`exitFullscreen` with webkit/ms fallbacks; event prefers `fullscreenchange`.
+- Icons: Improved `iconSprite` resolution; supports `window.mejs.MepDefaults.iconSprite` override; falls back to bundle/CSS path or `mejs-controls.svg`.
+- Cleanup: Removed legacy files (`Gruntfile.js`, `bower.json`, `package.js`, `full.js`, `standalone.js`).
+
 # Version History
 
 *7.0.7* (2024/12/17)

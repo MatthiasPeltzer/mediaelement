@@ -1,12 +1,12 @@
 'use strict';
 
-import window from 'global/window';
-import mejs from '../core/mejs';
-import {renderer} from '../core/renderer';
-import {createEvent, isString} from '../utils/general';
-import {typeChecks} from '../utils/media';
-import {HAS_MSE} from '../utils/constants';
-import {loadScript} from '../utils/dom';
+// Use native window
+import mejs from '../core/mejs.js';
+import {renderer} from '../core/renderer.js';
+import {createEvent, isString} from '../utils/general.js';
+import {typeChecks} from '../utils/media.js';
+import {HAS_MSE} from '../utils/constants.js';
+import {loadScript} from '../utils/dom.js';
 
 /**
  * Native M(PEG)-Dash renderer

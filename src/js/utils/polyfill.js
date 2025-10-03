@@ -1,6 +1,6 @@
 'use strict';
 
-import document from 'global/document';
+// Use native document
 import Promise from 'promise-polyfill';
 import svg4everybody from 'svg4everybody';
 

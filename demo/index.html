@@ -131,7 +131,7 @@
             <h3>Video Player</h3>
 
             <div class="media-wrapper">
-                <video id="player1" width="640" height="360" style="max-width:100%;" poster="http://www.mediaelementjs.com/images/big_buck_bunny.jpg" preload="none" controls playsinline webkit-playsinline>
+                <video id="player1" width="640" height="360" style="max-width:100%;" poster="https://www.mediaelementjs.com/images/big_buck_bunny.jpg" preload="none" controls playsinline webkit-playsinline>
                     <source src="//github.com/mediaelement/mediaelement-files/blob/master/big_buck_bunny.mp4?raw=true" type="video/mp4">
                     <track srclang="de" kind="subtitles" src="german.vtt" label="German with lines">
                     <track srclang="en" kind="subtitles" src="english.vtt" default>
@@ -177,7 +177,7 @@
             that only happens on load.</p>
 
             <div class="media-wrapper">
-                <video id="player-dash" width="640" height="360" style="max-width:100%;" poster="http://www.mediaelementjs.com/images/big_buck_bunny.jpg" preload="none" controls playsinline webkit-playsinline>
+                <video id="player-dash" width="640" height="360" style="max-width:100%;" poster="https://www.mediaelementjs.com/images/big_buck_bunny.jpg" preload="none" controls playsinline webkit-playsinline>
                     <source src="https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd" type="application/dash+xml">
                     <track srclang="de" kind="subtitles" src="german.vtt" label="German with lines">
                     <track srclang="en" kind="subtitles" src="english.vtt" default>
@@ -245,7 +245,7 @@
 
             <div class="media-wrapper">
                 <audio id="player2" preload="none" controls style="max-width:100%;">
-                    <source src="http://www.largesound.com/ashborytour/sound/AshboryBYU.mp3" type="audio/mp3">
+                    <source src="https://www.largesound.com/ashborytour/sound/AshboryBYU.mp3" type="audio/mp3">
                 </audio>
             </div>
             <br>
@@ -253,8 +253,8 @@
                 <label>Sources <select name="sources">
                     <option value="https://github.com/mediaelement/mediaelement-files/blob/master/AirReview-Landmarks-02-ChasingCorporate.mp3?raw=true">MP3</option>
                     <option value="https://commons.wikimedia.org/wiki/File:Demo_chorus.ogg">OGG</option>
-                    <option value="http://db3.indexcom.com/bucket/ram/00/05/64k/05.m3u8">HLS</option>
-                    <option value="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/282715465&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true">SoundCloud</option>
+                    <option value="https://db3.indexcom.com/bucket/ram/00/05/64k/05.m3u8">HLS</option>
+                    <option value="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2176587675&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">SoundCloud</option>
                 </select>
                 </label>
             </div>
@@ -272,6 +272,13 @@
     </div>
 
     <script src="../build/mediaelement-and-player.js"></script>
+    <script>
+      // Ensure icon sprite points to the build location when running the demo
+      window.mejs = window.mejs || {};
+      window.mejs.MepDefaults = Object.assign({}, window.mejs.MepDefaults || {}, {
+        iconSprite: '../build/mejs-controls.svg'
+      });
+    </script>
     <script src="../build/renderers/dailymotion.js"></script>
     <script src="../build/renderers/facebook.js"></script>
     <script src="../build/renderers/soundcloud.js"></script>
