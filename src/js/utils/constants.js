@@ -10,8 +10,7 @@ export const IS_IPHONE = /iphone/i.test(UA) && !window.MSStream;
 export const IS_IPOD = /ipod/i.test(UA) && !window.MSStream;
 export const IS_IOS = /ipad|iphone|ipod/i.test(UA) && !window.MSStream;
 export const IS_ANDROID = /android/i.test(UA);
-export const IS_IE = /(trident|microsoft)/i.test(NAV.appName);
-export const IS_EDGE = ('msLaunchUri' in NAV && !('documentMode' in document));
+// Drop IE-specific detection; legacy Edge detection removed
 export const IS_CHROME = /chrome/i.test(UA);
 export const IS_FIREFOX = /firefox/i.test(UA);
 export const IS_SAFARI = /safari/i.test(UA) && !IS_CHROME;
@@ -34,16 +33,11 @@ export const SUPPORT_PASSIVE_EVENT = (() => {
 	return supportsPassive;
 })();
 
-// for IE
-const html5Elements = ['source', 'track', 'audio', 'video'];
-let video;
+// Create a video element for fullscreen/hls checks
+const video = document.createElement('video');
 
-for (let i = 0, total = html5Elements.length; i < total; i++) {
-	video = document.createElement(html5Elements[i]);
-}
-
-// Test if browsers support HLS natively (right now Safari, Android's Chrome and Stock browsers, and MS Edge)
-export const SUPPORTS_NATIVE_HLS = (IS_SAFARI || (IS_IE && /edge/i.test(UA)));
+// Test if browsers support HLS natively (Safari primarily)
+export const SUPPORTS_NATIVE_HLS = IS_SAFARI;
 
 // Detect native JavaScript fullscreen (Safari/Firefox only, Chrome still fails)
 
@@ -61,16 +55,12 @@ if (hasiOSFullScreen && /mac os x 10_5/i.test(UA)) {
 
 // webkit/firefox/IE11+
 const hasWebkitNativeFullScreen = (video.requestFullscreen === undefined && video.webkitRequestFullscreen !== undefined);
-const hasMsNativeFullScreen = (video.requestFullscreen === undefined && video.msRequestFullscreen !== undefined);
-const hasTrueNativeFullScreen = (video.requestFullscreen !== undefined || hasWebkitNativeFullScreen || hasMsNativeFullScreen);
+const hasTrueNativeFullScreen = (video.requestFullscreen !== undefined || hasWebkitNativeFullScreen);
 let nativeFullScreenEnabled = hasTrueNativeFullScreen;
 let fullScreenEventName = '';
 let isFullScreen, requestFullScreen, cancelFullScreen;
 
-// Enabled?
-if (hasMsNativeFullScreen) {
-	nativeFullScreenEnabled = document.msFullscreenEnabled;
-}
+// Enabled? (MS-specific flag removed)
 
 if (IS_CHROME) {
 	hasiOSFullScreen = false;
@@ -81,8 +71,6 @@ if (hasTrueNativeFullScreen) {
         fullScreenEventName = 'fullscreenchange';
     } else if (hasWebkitNativeFullScreen) {
         fullScreenEventName = 'webkitfullscreenchange';
-    } else if (hasMsNativeFullScreen) {
-        fullScreenEventName = 'MSFullscreenChange';
     }
 
     isFullScreen = () =>  {
@@ -90,8 +78,6 @@ if (hasTrueNativeFullScreen) {
             return document.fullscreenElement !== null;
         } else if (hasWebkitNativeFullScreen) {
             return document.webkitIsFullScreen;
-        } else if (hasMsNativeFullScreen) {
-            return document.msFullscreenElement !== null;
         }
     };
 
@@ -100,8 +86,6 @@ if (hasTrueNativeFullScreen) {
             el.requestFullscreen();
         } else if (el.webkitRequestFullscreen) {
             el.webkitRequestFullscreen();
-        } else if (el.msRequestFullscreen) {
-            el.msRequestFullscreen();
         }
     };
 
@@ -110,15 +94,12 @@ if (hasTrueNativeFullScreen) {
             document.exitFullscreen();
         } else if (document.webkitCancelFullScreen) {
             document.webkitCancelFullScreen();
-        } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
         }
     };
 }
 
 export const HAS_NATIVE_FULLSCREEN = hasNativeFullscreen;
 export const HAS_WEBKIT_NATIVE_FULLSCREEN = hasWebkitNativeFullScreen;
-export const HAS_MS_NATIVE_FULLSCREEN = hasMsNativeFullScreen;
 export const HAS_IOS_FULLSCREEN = hasiOSFullScreen;
 export const HAS_TRUE_NATIVE_FULLSCREEN = hasTrueNativeFullScreen;
 export const HAS_NATIVE_FULLSCREEN_ENABLED = nativeFullScreenEnabled;
@@ -131,8 +112,6 @@ mejs.Features.isiPod = IS_IPOD;
 mejs.Features.isiPhone = IS_IPHONE;
 mejs.Features.isiOS = mejs.Features.isiPhone || mejs.Features.isiPad;
 mejs.Features.isAndroid = IS_ANDROID;
-mejs.Features.isIE = IS_IE;
-mejs.Features.isEdge = IS_EDGE;
 mejs.Features.isChrome = IS_CHROME;
 mejs.Features.isFirefox = IS_FIREFOX;
 mejs.Features.isSafari = IS_SAFARI;

@@ -13,9 +13,7 @@ All the utilities can be accessed through the `mejs.Utils.{name}` element.
 
 <a id="dom"></a>
 ### DOM
-`MediaElement.js` has already polyfills to use some of the methods that jQuery provided for matching/manipulating/AJAX-calling DOM.
-
-However, some of those methods are not possible to match natively, so `MediaElement.js` has created them.
+Modern browsers are supported natively; no IE-era polyfills are bundled.
 
 Method | Description
 ------ | --------

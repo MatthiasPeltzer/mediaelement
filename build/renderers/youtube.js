@@ -381,27 +381,9 @@
     var rect = el.getBoundingClientRect(), scrollLeft = window.pageXOffset || document.documentElement.scrollLeft, scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
   }
-  var hasClassMethod;
-  var addClassMethod;
-  var removeClassMethod;
-  if ("classList" in document.documentElement) {
-    hasClassMethod = (el, className) => el.classList !== void 0 && el.classList.contains(className);
-    addClassMethod = (el, className) => el.classList.add(className);
-    removeClassMethod = (el, className) => el.classList.remove(className);
-  } else {
-    hasClassMethod = (el, className) => new RegExp("\\b" + className + "\\b").test(el.className);
-    addClassMethod = (el, className) => {
-      if (!hasClass(el, className)) {
-        el.className += " " + className;
-      }
-    };
-    removeClassMethod = (el, className) => {
-      el.className = el.className.replace(new RegExp("\\b" + className + "\\b", "g"), "");
-    };
-  }
-  var hasClass = hasClassMethod;
-  var addClass = addClassMethod;
-  var removeClass = removeClassMethod;
+  var hasClass = (el, className) => el.classList.contains(className);
+  var addClass = (el, className) => el.classList.add(className);
+  var removeClass = (el, className) => el.classList.remove(className);
   function toggleClass(el, className) {
     hasClass(el, className) ? removeClass(el, className) : addClass(el, className);
   }
@@ -460,7 +442,7 @@
     return !!(elem.offsetWidth || elem.offsetHeight);
   }
   function ajax(url, dataType, success, error) {
-    const xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+    const xhr = new XMLHttpRequest();
     let type = "application/x-www-form-urlencoded; charset=UTF-8", completed = false, accept = "*/".concat("*");
     switch (dataType) {
       case "text":

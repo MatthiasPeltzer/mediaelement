@@ -1,540 +1,4 @@
 (() => {
-  var __create = Object.create;
-  var __defProp = Object.defineProperty;
-  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-  var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __getProtoOf = Object.getPrototypeOf;
-  var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __commonJS = (cb, mod) => function __require() {
-    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-  };
-  var __copyProps = (to, from, except, desc) => {
-    if (from && typeof from === "object" || typeof from === "function") {
-      for (let key of __getOwnPropNames(from))
-        if (!__hasOwnProp.call(to, key) && key !== except)
-          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-    }
-    return to;
-  };
-  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-    // If the importer is in node compatibility mode or this is not an ESM
-    // file that has been converted to a CommonJS file using a Babel-
-    // compatible transform (i.e. "__esModule" has not been set), then set
-    // "default" to the CommonJS "module.exports" for node compatibility.
-    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-    mod
-  ));
-
-  // node_modules/svg4everybody/dist/svg4everybody.js
-  var require_svg4everybody = __commonJS({
-    "node_modules/svg4everybody/dist/svg4everybody.js"(exports, module) {
-      !(function(root, factory) {
-        "function" == typeof define && define.amd ? (
-          // AMD. Register as an anonymous module unless amdModuleId is set
-          define([], function() {
-            return root.svg4everybody = factory();
-          })
-        ) : "object" == typeof module && module.exports ? (
-          // Node. Does not work with strict CommonJS, but
-          // only CommonJS-like environments that support module.exports,
-          // like Node.
-          module.exports = factory()
-        ) : root.svg4everybody = factory();
-      })(exports, function() {
-        function embed(parent, svg, target) {
-          if (target) {
-            var fragment = document.createDocumentFragment(), viewBox = !svg.hasAttribute("viewBox") && target.getAttribute("viewBox");
-            viewBox && svg.setAttribute("viewBox", viewBox);
-            for (var clone = target.cloneNode(true); clone.childNodes.length; ) {
-              fragment.appendChild(clone.firstChild);
-            }
-            parent.appendChild(fragment);
-          }
-        }
-        function loadreadystatechange(xhr) {
-          xhr.onreadystatechange = function() {
-            if (4 === xhr.readyState) {
-              var cachedDocument = xhr._cachedDocument;
-              cachedDocument || (cachedDocument = xhr._cachedDocument = document.implementation.createHTMLDocument(""), cachedDocument.body.innerHTML = xhr.responseText, xhr._cachedTarget = {}), // clear the xhr embeds list and embed each item
-              xhr._embeds.splice(0).map(function(item) {
-                var target = xhr._cachedTarget[item.id];
-                target || (target = xhr._cachedTarget[item.id] = cachedDocument.getElementById(item.id)), // embed the target into the svg
-                embed(item.parent, item.svg, target);
-              });
-            }
-          }, // test the ready state change immediately
-          xhr.onreadystatechange();
-        }
-        function svg4everybody2(rawopts) {
-          function oninterval() {
-            for (var index = 0; index < uses.length; ) {
-              var use = uses[index], parent = use.parentNode, svg = getSVGAncestor(parent), src = use.getAttribute("xlink:href") || use.getAttribute("href");
-              if (!src && opts.attributeName && (src = use.getAttribute(opts.attributeName)), svg && src) {
-                if (polyfill) {
-                  if (!opts.validate || opts.validate(src, svg, use)) {
-                    parent.removeChild(use);
-                    var srcSplit = src.split("#"), url = srcSplit.shift(), id = srcSplit.join("#");
-                    if (url.length) {
-                      var xhr = requests[url];
-                      xhr || (xhr = requests[url] = new XMLHttpRequest(), xhr.open("GET", url), xhr.send(), xhr._embeds = []), // add the svg and id as an item to the xhr embeds list
-                      xhr._embeds.push({
-                        parent,
-                        svg,
-                        id
-                      }), // prepare the xhr ready state change event
-                      loadreadystatechange(xhr);
-                    } else {
-                      embed(parent, svg, document.getElementById(id));
-                    }
-                  } else {
-                    ++index, ++numberOfSvgUseElementsToBypass;
-                  }
-                }
-              } else {
-                ++index;
-              }
-            }
-            (!uses.length || uses.length - numberOfSvgUseElementsToBypass > 0) && requestAnimationFrame(oninterval, 67);
-          }
-          var polyfill, opts = Object(rawopts), newerIEUA = /\bTrident\/[567]\b|\bMSIE (?:9|10)\.0\b/, webkitUA = /\bAppleWebKit\/(\d+)\b/, olderEdgeUA = /\bEdge\/12\.(\d+)\b/, edgeUA = /\bEdge\/.(\d+)\b/, inIframe = window.top !== window.self;
-          polyfill = "polyfill" in opts ? opts.polyfill : newerIEUA.test(navigator.userAgent) || (navigator.userAgent.match(olderEdgeUA) || [])[1] < 10547 || (navigator.userAgent.match(webkitUA) || [])[1] < 537 || edgeUA.test(navigator.userAgent) && inIframe;
-          var requests = {}, requestAnimationFrame = window.requestAnimationFrame || setTimeout, uses = document.getElementsByTagName("use"), numberOfSvgUseElementsToBypass = 0;
-          polyfill && oninterval();
-        }
-        function getSVGAncestor(node) {
-          for (var svg = node; "svg" !== svg.nodeName.toLowerCase() && (svg = svg.parentNode); ) {
-          }
-          return svg;
-        }
-        return svg4everybody2;
-      });
-    }
-  });
-
-  // node_modules/promise-polyfill/src/finally.js
-  function finallyConstructor(callback) {
-    var constructor = this.constructor;
-    return this.then(
-      function(value) {
-        return constructor.resolve(callback()).then(function() {
-          return value;
-        });
-      },
-      function(reason) {
-        return constructor.resolve(callback()).then(function() {
-          return constructor.reject(reason);
-        });
-      }
-    );
-  }
-  var finally_default = finallyConstructor;
-
-  // node_modules/promise-polyfill/src/allSettled.js
-  function allSettled(arr) {
-    var P = this;
-    return new P(function(resolve2, reject2) {
-      if (!(arr && typeof arr.length !== "undefined")) {
-        return reject2(
-          new TypeError(
-            typeof arr + " " + arr + " is not iterable(cannot read property Symbol(Symbol.iterator))"
-          )
-        );
-      }
-      var args = Array.prototype.slice.call(arr);
-      if (args.length === 0) return resolve2([]);
-      var remaining = args.length;
-      function res(i2, val) {
-        if (val && (typeof val === "object" || typeof val === "function")) {
-          var then = val.then;
-          if (typeof then === "function") {
-            then.call(
-              val,
-              function(val2) {
-                res(i2, val2);
-              },
-              function(e) {
-                args[i2] = { status: "rejected", reason: e };
-                if (--remaining === 0) {
-                  resolve2(args);
-                }
-              }
-            );
-            return;
-          }
-        }
-        args[i2] = { status: "fulfilled", value: val };
-        if (--remaining === 0) {
-          resolve2(args);
-        }
-      }
-      for (var i = 0; i < args.length; i++) {
-        res(i, args[i]);
-      }
-    });
-  }
-  var allSettled_default = allSettled;
-
-  // node_modules/promise-polyfill/src/any.js
-  function AggregateError(errors, message) {
-    this.name = "AggregateError", this.errors = errors;
-    this.message = message || "";
-  }
-  AggregateError.prototype = Error.prototype;
-  function any(arr) {
-    var P = this;
-    return new P(function(resolve2, reject2) {
-      if (!(arr && typeof arr.length !== "undefined")) {
-        return reject2(new TypeError("Promise.any accepts an array"));
-      }
-      var args = Array.prototype.slice.call(arr);
-      if (args.length === 0) return reject2();
-      var rejectionReasons = [];
-      for (var i = 0; i < args.length; i++) {
-        try {
-          P.resolve(args[i]).then(resolve2).catch(function(error) {
-            rejectionReasons.push(error);
-            if (rejectionReasons.length === args.length) {
-              reject2(
-                new AggregateError(
-                  rejectionReasons,
-                  "All promises were rejected"
-                )
-              );
-            }
-          });
-        } catch (ex) {
-          reject2(ex);
-        }
-      }
-    });
-  }
-  var any_default = any;
-
-  // node_modules/promise-polyfill/src/index.js
-  var setTimeoutFunc = setTimeout;
-  function isArray(x) {
-    return Boolean(x && typeof x.length !== "undefined");
-  }
-  function noop() {
-  }
-  function bind(fn, thisArg) {
-    return function() {
-      fn.apply(thisArg, arguments);
-    };
-  }
-  function Promise2(fn) {
-    if (!(this instanceof Promise2))
-      throw new TypeError("Promises must be constructed via new");
-    if (typeof fn !== "function") throw new TypeError("not a function");
-    this._state = 0;
-    this._handled = false;
-    this._value = void 0;
-    this._deferreds = [];
-    doResolve(fn, this);
-  }
-  function handle(self, deferred) {
-    while (self._state === 3) {
-      self = self._value;
-    }
-    if (self._state === 0) {
-      self._deferreds.push(deferred);
-      return;
-    }
-    self._handled = true;
-    Promise2._immediateFn(function() {
-      var cb = self._state === 1 ? deferred.onFulfilled : deferred.onRejected;
-      if (cb === null) {
-        (self._state === 1 ? resolve : reject)(deferred.promise, self._value);
-        return;
-      }
-      var ret;
-      try {
-        ret = cb(self._value);
-      } catch (e) {
-        reject(deferred.promise, e);
-        return;
-      }
-      resolve(deferred.promise, ret);
-    });
-  }
-  function resolve(self, newValue) {
-    try {
-      if (newValue === self)
-        throw new TypeError("A promise cannot be resolved with itself.");
-      if (newValue && (typeof newValue === "object" || typeof newValue === "function")) {
-        var then = newValue.then;
-        if (newValue instanceof Promise2) {
-          self._state = 3;
-          self._value = newValue;
-          finale(self);
-          return;
-        } else if (typeof then === "function") {
-          doResolve(bind(then, newValue), self);
-          return;
-        }
-      }
-      self._state = 1;
-      self._value = newValue;
-      finale(self);
-    } catch (e) {
-      reject(self, e);
-    }
-  }
-  function reject(self, newValue) {
-    self._state = 2;
-    self._value = newValue;
-    finale(self);
-  }
-  function finale(self) {
-    if (self._state === 2 && self._deferreds.length === 0) {
-      Promise2._immediateFn(function() {
-        if (!self._handled) {
-          Promise2._unhandledRejectionFn(self._value);
-        }
-      });
-    }
-    for (var i = 0, len = self._deferreds.length; i < len; i++) {
-      handle(self, self._deferreds[i]);
-    }
-    self._deferreds = null;
-  }
-  function Handler(onFulfilled, onRejected, promise) {
-    this.onFulfilled = typeof onFulfilled === "function" ? onFulfilled : null;
-    this.onRejected = typeof onRejected === "function" ? onRejected : null;
-    this.promise = promise;
-  }
-  function doResolve(fn, self) {
-    var done = false;
-    try {
-      fn(
-        function(value) {
-          if (done) return;
-          done = true;
-          resolve(self, value);
-        },
-        function(reason) {
-          if (done) return;
-          done = true;
-          reject(self, reason);
-        }
-      );
-    } catch (ex) {
-      if (done) return;
-      done = true;
-      reject(self, ex);
-    }
-  }
-  Promise2.prototype["catch"] = function(onRejected) {
-    return this.then(null, onRejected);
-  };
-  Promise2.prototype.then = function(onFulfilled, onRejected) {
-    var prom = new this.constructor(noop);
-    handle(this, new Handler(onFulfilled, onRejected, prom));
-    return prom;
-  };
-  Promise2.prototype["finally"] = finally_default;
-  Promise2.all = function(arr) {
-    return new Promise2(function(resolve2, reject2) {
-      if (!isArray(arr)) {
-        return reject2(new TypeError("Promise.all accepts an array"));
-      }
-      var args = Array.prototype.slice.call(arr);
-      if (args.length === 0) return resolve2([]);
-      var remaining = args.length;
-      function res(i2, val) {
-        try {
-          if (val && (typeof val === "object" || typeof val === "function")) {
-            var then = val.then;
-            if (typeof then === "function") {
-              then.call(
-                val,
-                function(val2) {
-                  res(i2, val2);
-                },
-                reject2
-              );
-              return;
-            }
-          }
-          args[i2] = val;
-          if (--remaining === 0) {
-            resolve2(args);
-          }
-        } catch (ex) {
-          reject2(ex);
-        }
-      }
-      for (var i = 0; i < args.length; i++) {
-        res(i, args[i]);
-      }
-    });
-  };
-  Promise2.any = any_default;
-  Promise2.allSettled = allSettled_default;
-  Promise2.resolve = function(value) {
-    if (value && typeof value === "object" && value.constructor === Promise2) {
-      return value;
-    }
-    return new Promise2(function(resolve2) {
-      resolve2(value);
-    });
-  };
-  Promise2.reject = function(value) {
-    return new Promise2(function(resolve2, reject2) {
-      reject2(value);
-    });
-  };
-  Promise2.race = function(arr) {
-    return new Promise2(function(resolve2, reject2) {
-      if (!isArray(arr)) {
-        return reject2(new TypeError("Promise.race accepts an array"));
-      }
-      for (var i = 0, len = arr.length; i < len; i++) {
-        Promise2.resolve(arr[i]).then(resolve2, reject2);
-      }
-    });
-  };
-  Promise2._immediateFn = // @ts-ignore
-  typeof setImmediate === "function" && function(fn) {
-    setImmediate(fn);
-  } || function(fn) {
-    setTimeoutFunc(fn, 0);
-  };
-  Promise2._unhandledRejectionFn = function _unhandledRejectionFn(err) {
-    if (typeof console !== "undefined" && console) {
-      console.warn("Possible Unhandled Promise Rejection:", err);
-    }
-  };
-  var src_default = Promise2;
-
-  // src/js/utils/polyfill.js
-  var import_svg4everybody = __toESM(require_svg4everybody(), 1);
-  (function(arr) {
-    arr.forEach(function(item) {
-      if (item.hasOwnProperty("remove")) {
-        return;
-      }
-      Object.defineProperty(item, "remove", {
-        configurable: true,
-        enumerable: true,
-        writable: true,
-        value: function remove() {
-          this.parentNode.removeChild(this);
-        }
-      });
-    });
-  })([Element.prototype, CharacterData.prototype, DocumentType.prototype]);
-  (function() {
-    if (typeof window.CustomEvent === "function") {
-      return false;
-    }
-    function CustomEvent(event, params) {
-      params = params || { bubbles: false, cancelable: false, detail: void 0 };
-      const evt = document.createEvent("CustomEvent");
-      evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-      return evt;
-    }
-    CustomEvent.prototype = window.Event.prototype;
-    window.CustomEvent = CustomEvent;
-  })();
-  if (typeof Object.assign !== "function") {
-    Object.assign = function(target) {
-      if (target === null || target === void 0) {
-        throw new TypeError("Cannot convert undefined or null to object");
-      }
-      const to = Object(target);
-      for (let index = 1, total = arguments.length; index < total; index++) {
-        const nextSource = arguments[index];
-        if (nextSource !== null) {
-          for (const nextKey in nextSource) {
-            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-              to[nextKey] = nextSource[nextKey];
-            }
-          }
-        }
-      }
-      return to;
-    };
-  }
-  if (!String.prototype.startsWith) {
-    String.prototype.startsWith = function(searchString, position) {
-      position = position || 0;
-      return this.substr(position, searchString.length) === searchString;
-    };
-  }
-  if (!Element.prototype.matches) {
-    Element.prototype.matches = Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector || Element.prototype.oMatchesSelector || Element.prototype.webkitMatchesSelector || function(s) {
-      let matches = (this.document || this.ownerDocument).querySelectorAll(s), i = matches.length - 1;
-      while (--i >= 0 && matches.item(i) !== this) {
-      }
-      return i > -1;
-    };
-  }
-  if (window.Element && !Element.prototype.closest) {
-    Element.prototype.closest = function(s) {
-      let matches = (this.document || this.ownerDocument).querySelectorAll(s), i, el = this;
-      do {
-        i = matches.length;
-        while (--i >= 0 && matches.item(i) !== el) {
-        }
-      } while (i < 0 && (el = el.parentElement));
-      return el;
-    };
-  }
-  (function() {
-    let lastTime = 0;
-    const vendors = ["ms", "moz", "webkit", "o"];
-    for (let x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-      window.requestAnimationFrame = window[vendors[x] + "RequestAnimationFrame"];
-      window.cancelAnimationFrame = window[vendors[x] + "CancelAnimationFrame"] || window[vendors[x] + "CancelRequestAnimationFrame"];
-    }
-    if (!window.requestAnimationFrame)
-      window.requestAnimationFrame = function(callback) {
-        const currTime = (/* @__PURE__ */ new Date()).getTime();
-        const timeToCall = Math.max(0, 16 - (currTime - lastTime));
-        const id = window.setTimeout(
-          function() {
-            callback(currTime + timeToCall);
-          },
-          timeToCall
-        );
-        lastTime = currTime + timeToCall;
-        return id;
-      };
-    if (!window.cancelAnimationFrame)
-      window.cancelAnimationFrame = function(id) {
-        clearTimeout(id);
-      };
-  })();
-  if (/firefox/i.test(navigator.userAgent)) {
-    getComputedStyle = window.getComputedStyle;
-    window.getComputedStyle = (el, pseudoEl) => {
-      const t = getComputedStyle(el, pseudoEl);
-      return t === null ? { getPropertyValue: function() {
-      } } : t;
-    };
-  }
-  var getComputedStyle;
-  if (!window.Promise) {
-    window.Promise = src_default;
-  }
-  (0, import_svg4everybody.default)();
-  (function(constructor) {
-    if (constructor && constructor.prototype && constructor.prototype.children === null) {
-      Object.defineProperty(constructor.prototype, "children", {
-        get: function() {
-          let i = 0, node, nodes = this.childNodes, children = [];
-          while (node = nodes[i++]) {
-            if (node.nodeType === 1) {
-              children.push(node);
-            }
-          }
-          return children;
-        }
-      });
-    }
-  })(window.Node || window.Element);
-
   // src/js/core/mejs.js
   var mejs = {};
   mejs.version = "7.0.8";
@@ -903,8 +367,6 @@
   var IS_IPOD = /ipod/i.test(UA) && !window.MSStream;
   var IS_IOS = /ipad|iphone|ipod/i.test(UA) && !window.MSStream;
   var IS_ANDROID = /android/i.test(UA);
-  var IS_IE = /(trident|microsoft)/i.test(NAV.appName);
-  var IS_EDGE = "msLaunchUri" in NAV && !("documentMode" in document);
   var IS_CHROME = /chrome/i.test(UA);
   var IS_FIREFOX = /firefox/i.test(UA);
   var IS_SAFARI = /safari/i.test(UA) && !IS_CHROME;
@@ -924,12 +386,8 @@
     }
     return supportsPassive;
   })();
-  var html5Elements = ["source", "track", "audio", "video"];
-  var video;
-  for (let i = 0, total = html5Elements.length; i < total; i++) {
-    video = document.createElement(html5Elements[i]);
-  }
-  var SUPPORTS_NATIVE_HLS = IS_SAFARI || IS_IE && /edge/i.test(UA);
+  var video = document.createElement("video");
+  var SUPPORTS_NATIVE_HLS = IS_SAFARI;
   var hasiOSFullScreen = video.webkitEnterFullscreen !== void 0;
   var hasNativeFullscreen = video.requestFullscreen !== void 0;
   if (hasiOSFullScreen && /mac os x 10_5/i.test(UA)) {
@@ -937,16 +395,12 @@
     hasiOSFullScreen = false;
   }
   var hasWebkitNativeFullScreen = video.requestFullscreen === void 0 && video.webkitRequestFullscreen !== void 0;
-  var hasMsNativeFullScreen = video.requestFullscreen === void 0 && video.msRequestFullscreen !== void 0;
-  var hasTrueNativeFullScreen = video.requestFullscreen !== void 0 || hasWebkitNativeFullScreen || hasMsNativeFullScreen;
+  var hasTrueNativeFullScreen = video.requestFullscreen !== void 0 || hasWebkitNativeFullScreen;
   var nativeFullScreenEnabled = hasTrueNativeFullScreen;
   var fullScreenEventName = "";
   var isFullScreen;
   var requestFullScreen;
   var cancelFullScreen;
-  if (hasMsNativeFullScreen) {
-    nativeFullScreenEnabled = document.msFullscreenEnabled;
-  }
   if (IS_CHROME) {
     hasiOSFullScreen = false;
   }
@@ -955,16 +409,12 @@
       fullScreenEventName = "fullscreenchange";
     } else if (hasWebkitNativeFullScreen) {
       fullScreenEventName = "webkitfullscreenchange";
-    } else if (hasMsNativeFullScreen) {
-      fullScreenEventName = "MSFullscreenChange";
     }
     isFullScreen = () => {
       if (typeof document.fullscreenElement !== "undefined") {
         return document.fullscreenElement !== null;
       } else if (hasWebkitNativeFullScreen) {
         return document.webkitIsFullScreen;
-      } else if (hasMsNativeFullScreen) {
-        return document.msFullscreenElement !== null;
       }
     };
     requestFullScreen = (el) => {
@@ -972,8 +422,6 @@
         el.requestFullscreen();
       } else if (el.webkitRequestFullscreen) {
         el.webkitRequestFullscreen();
-      } else if (el.msRequestFullscreen) {
-        el.msRequestFullscreen();
       }
     };
     cancelFullScreen = () => {
@@ -981,14 +429,11 @@
         document.exitFullscreen();
       } else if (document.webkitCancelFullScreen) {
         document.webkitCancelFullScreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
       }
     };
   }
   var HAS_NATIVE_FULLSCREEN = hasNativeFullscreen;
   var HAS_WEBKIT_NATIVE_FULLSCREEN = hasWebkitNativeFullScreen;
-  var HAS_MS_NATIVE_FULLSCREEN = hasMsNativeFullScreen;
   var HAS_IOS_FULLSCREEN = hasiOSFullScreen;
   var HAS_TRUE_NATIVE_FULLSCREEN = hasTrueNativeFullScreen;
   var HAS_NATIVE_FULLSCREEN_ENABLED = nativeFullScreenEnabled;
@@ -999,8 +444,6 @@
   mejs_default.Features.isiPhone = IS_IPHONE;
   mejs_default.Features.isiOS = mejs_default.Features.isiPhone || mejs_default.Features.isiPad;
   mejs_default.Features.isAndroid = IS_ANDROID;
-  mejs_default.Features.isIE = IS_IE;
-  mejs_default.Features.isEdge = IS_EDGE;
   mejs_default.Features.isChrome = IS_CHROME;
   mejs_default.Features.isFirefox = IS_FIREFOX;
   mejs_default.Features.isSafari = IS_SAFARI;
@@ -1860,17 +1303,17 @@
 
   // src/js/utils/dom.js
   function loadScript(url) {
-    return new Promise((resolve2, reject2) => {
+    return new Promise((resolve, reject) => {
       const script = document.createElement("script");
       script.src = url;
       script.async = true;
       script.onload = () => {
         script.remove();
-        resolve2();
+        resolve();
       };
       script.onerror = () => {
         script.remove();
-        reject2();
+        reject();
       };
       document.head.appendChild(script);
     });
@@ -1879,27 +1322,9 @@
     var rect = el.getBoundingClientRect(), scrollLeft = window.pageXOffset || document.documentElement.scrollLeft, scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
   }
-  var hasClassMethod;
-  var addClassMethod;
-  var removeClassMethod;
-  if ("classList" in document.documentElement) {
-    hasClassMethod = (el, className) => el.classList !== void 0 && el.classList.contains(className);
-    addClassMethod = (el, className) => el.classList.add(className);
-    removeClassMethod = (el, className) => el.classList.remove(className);
-  } else {
-    hasClassMethod = (el, className) => new RegExp("\\b" + className + "\\b").test(el.className);
-    addClassMethod = (el, className) => {
-      if (!hasClass(el, className)) {
-        el.className += " " + className;
-      }
-    };
-    removeClassMethod = (el, className) => {
-      el.className = el.className.replace(new RegExp("\\b" + className + "\\b", "g"), "");
-    };
-  }
-  var hasClass = hasClassMethod;
-  var addClass = addClassMethod;
-  var removeClass = removeClassMethod;
+  var hasClass = (el, className) => el.classList.contains(className);
+  var addClass = (el, className) => el.classList.add(className);
+  var removeClass = (el, className) => el.classList.remove(className);
   function toggleClass(el, className) {
     hasClass(el, className) ? removeClass(el, className) : addClass(el, className);
   }
@@ -1958,7 +1383,7 @@
     return !!(elem.offsetWidth || elem.offsetHeight);
   }
   function ajax(url, dataType, success, error) {
-    const xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+    const xhr = new XMLHttpRequest();
     let type = "application/x-www-form-urlencoded; charset=UTF-8", completed = false, accept = "*/".concat("*");
     switch (dataType) {
       case "text":
@@ -2031,8 +1456,8 @@
      */
     load: (settings) => {
       if (typeof dashjs !== "undefined") {
-        NativeDash.promise = new Promise((resolve2) => {
-          resolve2();
+        NativeDash.promise = new Promise((resolve) => {
+          resolve();
         }).then(() => {
           NativeDash._createPlayer(settings);
         });
@@ -2226,8 +1651,8 @@
      */
     load: (settings) => {
       if (typeof Hls !== "undefined") {
-        NativeHls.promise = new Promise((resolve2) => {
-          resolve2();
+        NativeHls.promise = new Promise((resolve) => {
+          resolve();
         }).then(() => {
           NativeHls._createPlayer(settings);
         });
@@ -2945,19 +2370,3 @@
   typeChecks.push((url) => /\/\/(www\.youtube|youtu\.?be)/i.test(url) ? "video/x-youtube" : null);
   renderer.add(YouTubeIframeRenderer);
 })();
-/*!
- * This is a `i18n` language object.
- *
- * English; This can serve as a template for other languages to translate
- *
- * @author
- *   TBD
- *   Sascha Greuel (Twitter: @SoftCreatR)
- *
- * @see core/i18n.js
- */
-/*! Bundled license information:
-
-svg4everybody/dist/svg4everybody.js:
-  (*! svg4everybody v2.1.9 | github.com/jonathantneal/svg4everybody *)
-*/

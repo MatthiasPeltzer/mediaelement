@@ -15,10 +15,6 @@
   "devDependencies": {
     "cross-env": "^10.1.0",
     "autoprefixer": "^10.4.21",
-    "@babel/cli": "^7.28.3",
-    "@babel/core": "^7.28.4",
-    "@babel/preset-env": "^7.28.3",
-    "@babel/register": "^7.28.3",
     "chai": "^6.2.0",
     "cssnano": "^7.1.1",
     "esbuild": "^0.25.10",
@@ -27,32 +23,39 @@
     "jsdom": "^27.0.0",
     "mocha": "^11.7.4",
     "postcss-cli": "^11.0.1",
-    "promise-polyfill": "8.3.0",
     "rimraf": "^6.0.1",
     "cpy-cli": "^6.0.0",
-    "stylelint": "^16.24.0",
-    "stylelint-order": "^7.0.0",
-    "core-js": "^3.45.1",
-    "regenerator-runtime": "^0.14.1"
-  },
-  "dependencies": {
-    "svg4everybody": "^2.1.9"
+    "stylelint": "^16.25.0",
+    "stylelint-order": "^7.0.0"
   },
   "scripts": {
-    "test": "cross-env NODE_OPTIONS=--experimental-specifier-resolution=node c8 -r text -r lcov mocha --require jsdom-global/register --require @babel/register --require core-js/stable --require regenerator-runtime/runtime --recursive test/unit",
+    "test": "cross-env NODE_OPTIONS=--experimental-specifier-resolution=node c8 -r text -r lcov mocha --require jsdom-global/register --recursive test/unit",
     "clean": "rimraf build",
     "build:css": "postcss src/css/mediaelementplayer.css -o build/mediaelementplayer.css",
-    "build:css:legacy": "postcss src/css/mediaelementplayer-legacy.css -o build/mediaelementplayer-legacy.css",
     "build:css:min": "cross-env NODE_ENV=production postcss build/mediaelementplayer.css -o build/mediaelementplayer.min.css",
-    "build:css:legacy:min": "cross-env NODE_ENV=production postcss build/mediaelementplayer-legacy.css -o build/mediaelementplayer-legacy.min.css",
     "build:assets": "cpy \"src/css/*.{png,svg,gif}\" build/ --flat",
     "build:lang": "cpy src/js/languages/*.js !src/js/languages/en.js build/lang/ --flat",
-    "build:js": "esbuild scripts/entries/mediaelement.js --bundle --format=iife --outfile=build/mediaelement.js && esbuild scripts/entries/mediaelement-and-player.js --bundle --format=iife --outfile=build/mediaelement-and-player.js",
-    "build:js:min": "esbuild scripts/entries/mediaelement.js --bundle --minify --format=iife --outfile=build/mediaelement.min.js && esbuild scripts/entries/mediaelement-and-player.js --bundle --minify --format=iife --outfile=build/mediaelement-and-player.min.js",
-    "build:renderers": "esbuild src/js/renderers/dailymotion.js --bundle --format=iife --outfile=build/renderers/dailymotion.js && esbuild src/js/renderers/facebook.js --bundle --format=iife --outfile=build/renderers/facebook.js && esbuild src/js/renderers/soundcloud.js --bundle --format=iife --outfile=build/renderers/soundcloud.js && esbuild src/js/renderers/twitch.js --bundle --format=iife --outfile=build/renderers/twitch.js && esbuild src/js/renderers/vimeo.js --bundle --format=iife --outfile=build/renderers/vimeo.js && esbuild src/js/renderers/youtube.js --bundle --format=iife --outfile=build/renderers/youtube.js",
-    "build:renderers:min": "esbuild src/js/renderers/dailymotion.js --bundle --minify --format=iife --outfile=build/renderers/dailymotion.min.js && esbuild src/js/renderers/facebook.js --bundle --minify --format=iife --outfile=build/renderers/facebook.min.js && esbuild src/js/renderers/soundcloud.js --bundle --minify --format=iife --outfile=build/renderers/soundcloud.min.js && esbuild src/js/renderers/twitch.js --bundle --minify --format=iife --outfile=build/renderers/twitch.min.js && esbuild src/js/renderers/vimeo.js --bundle --minify --format=iife --outfile=build/renderers/vimeo.min.js && esbuild src/js/renderers/youtube.js --bundle --minify --format=iife --outfile=build/renderers/youtube.min.js",
+    "build:js": "esbuild scripts/entries/mediaelement.js --bundle --format=iife --target=es2022 --legal-comments=none --outfile=build/mediaelement.js && esbuild scripts/entries/mediaelement-and-player.js --bundle --format=iife --target=es2022 --legal-comments=none --outfile=build/mediaelement-and-player.js",
+    "build:js:min": "esbuild scripts/entries/mediaelement.js --bundle --minify --format=iife --target=es2022 --legal-comments=none --outfile=build/mediaelement.min.js && esbuild scripts/entries/mediaelement-and-player.js --bundle --minify --format=iife --target=es2022 --legal-comments=none --outfile=build/mediaelement-and-player.min.js",
+    "build:renderers": "esbuild src/js/renderers/dailymotion.js --bundle --format=iife --target=es2022 --legal-comments=none --outfile=build/renderers/dailymotion.js && esbuild src/js/renderers/facebook.js --bundle --format=iife --target=es2022 --legal-comments=none --outfile=build/renderers/facebook.js && esbuild src/js/renderers/soundcloud.js --bundle --format=iife --target=es2022 --legal-comments=none --outfile=build/renderers/soundcloud.js && esbuild src/js/renderers/twitch.js --bundle --format=iife --target=es2022 --legal-comments=none --outfile=build/renderers/twitch.js && esbuild src/js/renderers/vimeo.js --bundle --format=iife --target=es2022 --legal-comments=none --outfile=build/renderers/vimeo.js && esbuild src/js/renderers/youtube.js --bundle --format=iife --target=es2022 --legal-comments=none --outfile=build/renderers/youtube.js",
+    "build:renderers:min": "esbuild src/js/renderers/dailymotion.js --bundle --minify --format=iife --target=es2022 --legal-comments=none --outfile=build/renderers/dailymotion.min.js && esbuild src/js/renderers/facebook.js --bundle --minify --format=iife --target=es2022 --legal-comments=none --outfile=build/renderers/facebook.min.js && esbuild src/js/renderers/soundcloud.js --bundle --minify --format=iife --target=es2022 --legal-comments=none --outfile=build/renderers/soundcloud.min.js && esbuild src/js/renderers/twitch.js --bundle --minify --format=iife --target=es2022 --legal-comments=none --outfile=build/renderers/twitch.min.js && esbuild src/js/renderers/vimeo.js --bundle --minify --format=iife --target=es2022 --legal-comments=none --outfile=build/renderers/vimeo.min.js && esbuild src/js/renderers/youtube.js --bundle --minify --format=iife --target=es2022 --legal-comments=none --outfile=build/renderers/youtube.min.js",
     "build:demo": "cpy demo/* build/ --flat",
-    "build": "npm run clean && npm run build:js && npm run build:js:min && npm run build:renderers && npm run build:renderers:min && npm run build:css && npm run build:css:legacy && npm run build:css:min && npm run build:css:legacy:min && npm run build:assets && npm run build:lang && npm run build:demo"
+    "build": "npm run clean && npm run build:js && npm run build:js:min && npm run build:renderers && npm run build:renderers:min && npm run build:css && npm run build:css:min && npm run build:assets && npm run build:lang && npm run build:demo"
   },
-  "browserify": {}
+  "exports": {
+    ".": {
+      "import": "./src/js/index.js"
+    },
+    "./player": "./src/js/player.js",
+    "./core/*": "./src/js/core/*.js",
+    "./features/*": "./src/js/features/*.js",
+    "./renderers/*": "./src/js/renderers/*.js",
+    "./utils/*": "./src/js/utils/*.js",
+    "./languages/*": "./src/js/languages/*.js"
+  },
+  "browserslist": [
+    "last 1 Chrome version",
+    "not dead",
+    "supports es6-module"
+  ]
 }

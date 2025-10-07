@@ -153,7 +153,7 @@ $mediaelement = includes_url( "js/mediaelement/mediaelementplayer.min.css?$versi
 ```
 with:
 ```
-$mediaelement = includes_url( "js/mediaelement/mediaelementplayer-legacy.min.css?$version" );
+// Legacy stylesheet removed; use mediaelementplayer.min.css
 ```
 
 <a id="wp-js-mediaelement"></a>
@@ -273,7 +273,7 @@ $styles->add( 'mediaelement', "/wp-includes/js/mediaelement/mediaelementplayer.m
 ```
 with:
 ```
-$styles->add( 'mediaelement',  "/wp-includes/js/mediaelement/mediaelementplayer-legacy.min.css", array(), 'X.X.X' );
+// Legacy stylesheet removed; use mediaelementplayer.min.css
 ```
 being `X.X.X` the latest version you want to install.
 
@@ -336,7 +336,7 @@ If you wish to install the sources in different directories (i.e., all JavaScrip
 </style>
 ```
 
-Check the content of `mediaelementplayer.min.css` (or if you decided to use the old styles, `mediaelementplayer-legacy.min.css`) to customize any CSS related to the player.
+Check the content of `mediaelementplayer.min.css` to customize any CSS related to the player.
 
 Also, as an example, visit [this section](resources.md#styles) to have an idea on how can you customize the look-and-feel of the player.
 

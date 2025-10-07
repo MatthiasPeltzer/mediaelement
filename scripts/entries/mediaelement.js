@@ -1,4 +1,3 @@
-import '../../src/js/utils/polyfill.js';
 import '../../src/js/core/mediaelement.js';
 import '../../src/js/core/i18n.js';
 import '../../src/js/languages/en.js';

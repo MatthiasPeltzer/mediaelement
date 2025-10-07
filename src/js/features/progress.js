@@ -162,13 +162,9 @@ Object.assign(MediaElementPlayer.prototype, {
 		t.buffer = controls.querySelector(`.${t.options.classPrefix}time-buffering`);
 		t.newTime = 0;
 		t.forcedHandlePause = false;
-		t.setTransformStyle = (element, value) => {
-			element.style.transform = value;
-			element.style.webkitTransform = value;
-			element.style.MozTransform = value;
-			element.style.msTransform = value;
-			element.style.OTransform = value;
-		};
+        t.setTransformStyle = (element, value) => {
+            element.style.transform = value;
+        };
 
 		t.buffer.style.display = 'none';
 
@@ -179,33 +175,10 @@ Object.assign(MediaElementPlayer.prototype, {
 		 */
 		let
 			handleMouseMove = (e) => {
-				const
-					totalStyles = getComputedStyle(t.total),
-					offsetStyles = offset(t.total),
-					width = t.total.offsetWidth,
-					transform = (() => {
-						if (totalStyles.webkitTransform !== undefined) {
-							return 'webkitTransform';
-						} else if (totalStyles.mozTransform !== undefined) {
-							return 'mozTransform ';
-						} else if (totalStyles.oTransform !== undefined) {
-							return 'oTransform';
-						} else if (totalStyles.msTransform !== undefined) {
-							return 'msTransform';
-						} else {
-							return 'transform';
-						}
-					})(),
-					cssMatrix = (() => {
-						if ('WebKitCSSMatrix' in window) {
-							return 'WebKitCSSMatrix';
-						} else if ('MSCSSMatrix' in window) {
-							return 'MSCSSMatrix';
-						} else if ('CSSMatrix' in window) {
-							return 'CSSMatrix';
-						}
-					})()
-				;
+                const
+                    offsetStyles = offset(t.total),
+                    width = t.total.clientWidth
+                ;
 
 				let
 					percentage = 0,
@@ -245,31 +218,30 @@ Object.assign(MediaElementPlayer.prototype, {
 						if (pos < 0){
 							pos = 0;
 						}
-						if (t.options.useSmoothHover && cssMatrix !== null && typeof window[cssMatrix] !== 'undefined') {
-							const
-								matrix = new window[cssMatrix](getComputedStyle(t.handle)[transform]),
-								handleLocation = matrix.m41,
-								hoverScaleX = pos/parseFloat(getComputedStyle(t.total).width) - handleLocation/parseFloat(getComputedStyle(t.total).width)
-							;
+                        if (t.options.useSmoothHover) {
+                            const totalWidth = t.total.clientWidth;
+                            const handleMatrix = new DOMMatrixReadOnly(getComputedStyle(t.handle).transform);
+                            const handleLocation = handleMatrix.m41;
+                            const hoverScaleX = pos/totalWidth - handleLocation/totalWidth;
 
-							t.hovered.style.left = `${handleLocation}px`;
-							t.setTransformStyle(t.hovered,`scaleX(${hoverScaleX})`);
-							t.hovered.setAttribute('pos', pos);
+                            t.hovered.style.left = `${handleLocation}px`;
+                            t.setTransformStyle(t.hovered,`scaleX(${hoverScaleX})`);
+                            t.hovered.setAttribute('pos', pos);
 
-							if (hoverScaleX >= 0) {
-								removeClass(t.hovered, 'negative');
-							} else {
-								addClass(t.hovered, 'negative');
-							}
-						}
+                            if (hoverScaleX >= 0) {
+                                removeClass(t.hovered, 'negative');
+                            } else {
+                                addClass(t.hovered, 'negative');
+                            }
+                        }
 
 						// Add correct position of tooltip if rail is 100%
 						if (t.timefloat) {
-							const
-								half = t.timefloat.offsetWidth / 2,
-								offsetContainer = mejs.Utils.offset(t.getElement(t.container)),
-								tooltipStyles = getComputedStyle(t.timefloat)
-							;
+                            const
+                                half = t.timefloat.offsetWidth / 2,
+                                offsetContainer = mejs.Utils.offset(t.getElement(t.container)),
+                                tooltipStyles = getComputedStyle(t.timefloat)
+                            ;
 
 							if ((x - offsetContainer.left) < t.timefloat.offsetWidth) {
 								leftPos = half;
@@ -290,7 +262,6 @@ Object.assign(MediaElementPlayer.prototype, {
 					}
 				} else if (!IS_IOS && !IS_ANDROID && t.timefloat) {
 					leftPos = t.timefloat.offsetWidth + width >= t.getElement(t.container).offsetWidth ? t.timefloat.offsetWidth / 2 : 0;
-					t.timefloat.style.left = leftPos + 'px';
 					t.timefloat.style.left = `${leftPos}px`;
 					t.timefloat.style.display = 'block';
 				}

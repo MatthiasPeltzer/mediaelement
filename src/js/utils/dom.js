@@ -32,27 +32,9 @@ export function offset (el) {
 	return {top: rect.top + scrollTop, left: rect.left + scrollLeft}
 }
 
-let hasClassMethod, addClassMethod, removeClassMethod;
-
-if ('classList' in document.documentElement) {
-	hasClassMethod = (el, className) => el.classList !== undefined && el.classList.contains(className);
-	addClassMethod = (el, className) => el.classList.add(className);
-	removeClassMethod = (el, className) => el.classList.remove(className);
-} else {
-	hasClassMethod = (el, className) => new RegExp('\\b' + className + '\\b').test(el.className);
-	addClassMethod = (el, className) => {
-		if (!hasClass(el, className)) {
-			el.className += ' ' + className;
-		}
-	};
-	removeClassMethod = (el, className) => {
-		el.className = el.className.replace(new RegExp('\\b' + className + '\\b', 'g'), '');
-	};
-}
-
-export const hasClass = hasClassMethod;
-export const addClass = addClassMethod;
-export const removeClass = removeClassMethod;
+export const hasClass = (el, className) => el.classList.contains(className);
+export const addClass = (el, className) => el.classList.add(className);
+export const removeClass = (el, className) => el.classList.remove(className);
 
 export function toggleClass (el, className) {
 	hasClass(el, className) ? removeClass(el, className) : addClass(el, className);
@@ -122,7 +104,7 @@ export function visible (elem) {
 }
 
 export function ajax (url, dataType, success, error) {
-	const xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    const xhr = new XMLHttpRequest();
 
 	let
 		type = 'application/x-www-form-urlencoded; charset=UTF-8',

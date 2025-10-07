@@ -3,7 +3,8 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
 .mejs__offscreen {
     border: 0;
     clip: rect( 1px, 1px, 1px, 1px );
-    clip-path: inset( 50% );
+    -webkit-clip-path: inset( 50% );
+            clip-path: inset( 50% );
     height: 1px;
     margin: -1px;
     overflow: hidden;

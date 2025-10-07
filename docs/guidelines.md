@@ -35,7 +35,7 @@ As a final note, try to be aware of building it thinking on Accessibility. Take 
 * `/src` source folder for all css and js files.
   * `/css` source css files.
     * `mediaelementplayer.css` default css styles.
-    * `mediaelementplayer-legacy.css` old legacy css styles.
+    * (legacy stylesheet removed)
     * `mejs-controls.svg` svg-spritemap with all icons.
   * `/js` source js files.
     * `/core` core functionality of this library.
