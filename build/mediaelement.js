@@ -455,7 +455,6 @@
   mejs_default.Features.hasiOSFullScreen = HAS_IOS_FULLSCREEN;
   mejs_default.Features.hasNativeFullscreen = HAS_NATIVE_FULLSCREEN;
   mejs_default.Features.hasWebkitNativeFullScreen = HAS_WEBKIT_NATIVE_FULLSCREEN;
-  mejs_default.Features.hasMsNativeFullScreen = HAS_MS_NATIVE_FULLSCREEN;
   mejs_default.Features.hasTrueNativeFullScreen = HAS_TRUE_NATIVE_FULLSCREEN;
   mejs_default.Features.nativeFullScreenEnabled = HAS_NATIVE_FULLSCREEN_ENABLED;
   mejs_default.Features.fullScreenEventName = FULLSCREEN_EVENT_NAME;

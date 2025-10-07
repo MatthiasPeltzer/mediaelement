@@ -123,7 +123,6 @@ mejs.Features.supportsPassiveEvent = SUPPORT_PASSIVE_EVENT;
 mejs.Features.hasiOSFullScreen = HAS_IOS_FULLSCREEN;
 mejs.Features.hasNativeFullscreen = HAS_NATIVE_FULLSCREEN;
 mejs.Features.hasWebkitNativeFullScreen = HAS_WEBKIT_NATIVE_FULLSCREEN;
-mejs.Features.hasMsNativeFullScreen = HAS_MS_NATIVE_FULLSCREEN;
 mejs.Features.hasTrueNativeFullScreen = HAS_TRUE_NATIVE_FULLSCREEN;
 mejs.Features.nativeFullScreenEnabled = HAS_NATIVE_FULLSCREEN_ENABLED;
 mejs.Features.fullScreenEventName = FULLSCREEN_EVENT_NAME;
